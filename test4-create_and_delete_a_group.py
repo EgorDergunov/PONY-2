@@ -76,6 +76,19 @@ if  r.status_code != 200:
     print('Error ',r.status_code)
     driver.close()
 
+url='http://srv-pnew-01-test.ponyex.local:1001/api/v1/user-profile-groups/get-limit/1000'
+r = requests.get(url, headers = {'Authorization': 'Bearer ' + tok})
+a=json.loads(r.text)
+
+groups=a['result']
+
+flag=0
+for i in range (0,len(groups)):
+    if groups[i]['id']==id:
+        flag=1
+if flag==1:
+    print('Group exists')
+
 print ('OK')
 driver.close()
 
