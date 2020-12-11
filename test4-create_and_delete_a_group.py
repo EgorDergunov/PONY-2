@@ -1,8 +1,7 @@
+#Создание и удаление группы через backend
 from selenium import webdriver
-
 import requests
 import json
-
 import pathes
 
 
@@ -41,6 +40,7 @@ urls = [
 
 try:
    tok = authorization()
+   print('Авторизация успешно пройдена')
 except:
    print('Error: Authorization failed')
    driver.close()
@@ -50,6 +50,7 @@ data = {'displayName': "Group0"}
 
 try:
    r = requests.post(url, data = json.dumps(data), headers = {'Content-Type': 'application/json','Authorization': 'Bearer ' + tok})
+   print('Запрос отправлен')
 except:
    print('Error: Post fail')
    driver.close()
@@ -57,6 +58,8 @@ except:
 if  r.status_code != 200:
     print('Error ',r.status_code)
     driver.close()
+else:
+   print('Группа создана')
 
 answer=json.loads(r.text)
 
@@ -68,6 +71,7 @@ params = {'id': id}
 
 try:
    r = requests.delete(url, params = params, headers = {'Authorization': 'Bearer ' + tok})
+   print('Группа удалена')
 except:
    print('Error: Deleting failed')
    driver.close()
@@ -86,8 +90,11 @@ flag=0
 for i in range (0,len(groups)):
     if groups[i]['id']==id:
         flag=1
+
 if flag==1:
     print('Group exists')
+else:
+   print('Группа больше не существует')
 
 print ('OK')
 driver.close()
